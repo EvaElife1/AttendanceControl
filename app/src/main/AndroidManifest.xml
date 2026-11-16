@@ -11,16 +11,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AttendanceControl">
+
+        <!-- Главный экран -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Экран студентов -->
+        <activity
+            android:name=".StudentsActivity"
+            android:exported="false" />
+
+        <!-- Экран отметки посещаемости -->
+        <activity
+            android:name=".AttendanceActivity"
+            android:exported="false" />
+
+        <!-- Экран статистики -->
+        <activity
+            android:name=".StatisticsActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
