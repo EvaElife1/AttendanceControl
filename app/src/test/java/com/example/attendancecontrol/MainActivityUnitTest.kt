@@ -1,32 +1,61 @@
 package com.example.attendancecontrol
 
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Test
 
-/**
- * Простые unit-тесты для Спринта 1.
- * Проверяют, что классы Activity существуют и имеют правильные имена.
- * Полноценная проверка запуска Activity выполняется в UI-тестах (Espresso).
- */
 class MainActivityUnitTest {
 
     @Test
-    fun mainActivity_classExists() {
-        assertEquals("MainActivity", MainActivity::class.java.simpleName)
+    fun correctData_returnsNull() {
+        val result = StudentValidator.validate("Иванов", "Иван", "ИС-21")
+        assertNull(result)
     }
 
     @Test
-    fun studentsActivity_classExists() {
-        assertEquals("StudentsActivity", StudentsActivity::class.java.simpleName)
+    fun emptyLastName_returnsError() {
+        val result = StudentValidator.validate("", "Иван", "ИС-21")
+        assertEquals("Введите фамилию", result)
     }
 
     @Test
-    fun attendanceActivity_classExists() {
-        assertEquals("AttendanceActivity", AttendanceActivity::class.java.simpleName)
+    fun spacesInLastName_returnsError() {
+        val result = StudentValidator.validate("   ", "Иван", "ИС-21")
+        assertEquals("Введите фамилию", result)
     }
 
     @Test
-    fun statisticsActivity_classExists() {
-        assertEquals("StatisticsActivity", StatisticsActivity::class.java.simpleName)
+    fun emptyFirstName_returnsError() {
+        val result = StudentValidator.validate("Иванов", "", "ИС-21")
+        assertEquals("Введите имя", result)
+    }
+
+    @Test
+    fun spacesInFirstName_returnsError() {
+        val result = StudentValidator.validate("Иванов", "   ", "ИС-21")
+        assertEquals("Введите имя", result)
+    }
+
+    @Test
+    fun emptyGroup_returnsError() {
+        val result = StudentValidator.validate("Иванов", "Иван", "")
+        assertEquals("Введите группу", result)
+    }
+
+    @Test
+    fun spacesInGroup_returnsError() {
+        val result = StudentValidator.validate("Иванов", "Иван", "     ")
+        assertEquals("Введите группу", result)
+    }
+
+    @Test
+    fun allEmpty_returnsLastNameError() {
+        val result = StudentValidator.validate("", "", "")
+        assertEquals("Введите фамилию", result)
+    }
+
+    @Test
+    fun allSpaces_returnsLastNameError() {
+        val result = StudentValidator.validate("  ", "  ", "  ")
+        assertEquals("Введите фамилию", result)
     }
 }
