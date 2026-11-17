@@ -4,49 +4,119 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingTop="32dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp">
+    android:background="?android:attr/colorBackground">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Отметка посещаемости"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="?android:attr/textColorPrimary"
-        android:layout_marginBottom="16dp"/>
-
-    <EditText
-        android:id="@+id/etSubject"
+    <!-- Шапка экрана -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Дисциплина / Тема"
-        android:textColorHint="?android:attr/textColorHint"
-        android:textColor="?android:attr/textColorPrimary"
-        android:layout_marginBottom="8dp"/>
+        android:orientation="vertical"
+        android:background="@color/header_bg"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
 
-    <EditText
-        android:id="@+id/etDate"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Отметка посещаемости"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/header_title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Укажите предмет, дату и статус каждого студента"
+            android:textSize="14sp"
+            android:textColor="@color/header_subtitle"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <!-- Форма -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Дата (ГГГГ-ММ-ДД)"
-        android:inputType="date"
-        android:textColorHint="?android:attr/textColorHint"
-        android:textColor="?android:attr/textColorPrimary"
-        android:layout_marginBottom="16dp"/>
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <!-- Обычная кнопка, чтобы точно не было краша с темой -->
-    <Button
-        android:id="@+id/btnSaveAttendance"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Дисциплина / Тема"
+            android:layout_marginBottom="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSubject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Дата (ГГГГ-ММ-ДД)"
+            android:layout_marginBottom="12dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSaveAttendance"
+            style="@style/Widget.App.Button.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Сохранить отметки"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
+    <!-- Информационная плашка со счётчиком студентов (не белая, с ярким контрастным текстом) -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Сохранить отметки"
-        android:textSize="16sp"
-        android:textColor="#212121"
-        android:backgroundTint="#D0BCFF"
-        android:layout_marginBottom="16dp"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:background="@color/counter_bar_bg">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Студенты для отметки"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/counter_bar_title" />
+
+        <TextView
+            android:id="@+id/tvStudentsCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Студентов: 0"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/counter_bar_count" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAttendance"

@@ -1,13 +1,21 @@
-package com.example.attendancecontrol
+package com.example.attendancecontrol.ui
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.attendancecontrol.R
+import com.example.attendancecontrol.data.db.AppDatabase
+import com.example.attendancecontrol.data.entity.AttendanceEntity
+import com.example.attendancecontrol.data.entity.StudentEntity
+import com.example.attendancecontrol.ui.adapter.AttendanceAdapter
+import com.example.attendancecontrol.util.applyStatusBarPadding
 import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -15,14 +23,16 @@ import java.util.Locale
 
 class AttendanceActivity : AppCompatActivity() {
 
-    // ИЗМЕНЕНО на StudentEntity
     private val studentsList = mutableListOf<StudentEntity>()
     private lateinit var adapter: AttendanceAdapter
     private lateinit var db: AppDatabase
+    private lateinit var tvStudentsCount: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_attendance)
+
+        findViewById<View>(R.id.headerLayout)?.let { applyStatusBarPadding(it) }
 
         db = AppDatabase.getDatabase(this)
 
@@ -30,6 +40,7 @@ class AttendanceActivity : AppCompatActivity() {
         val etDate = findViewById<EditText>(R.id.etDate)
         val btnSave = findViewById<Button>(R.id.btnSaveAttendance)
         val rvAttendance = findViewById<RecyclerView>(R.id.rvAttendance)
+        tvStudentsCount = findViewById(R.id.tvStudentsCount)
 
         adapter = AttendanceAdapter(studentsList)
         rvAttendance.layoutManager = LinearLayoutManager(this)
@@ -65,8 +76,9 @@ class AttendanceActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val entities = db.studentDao().getAll()
             studentsList.clear()
-            studentsList.addAll(entities) // Берем напрямую из БД
+            studentsList.addAll(entities)
             adapter.notifyDataSetChanged()
+            tvStudentsCount.text = "Студентов: ${studentsList.size}"
         }
     }
 

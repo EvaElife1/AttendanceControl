@@ -4,41 +4,50 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="24dp"
-    android:background="#F5F5F5">
+    android:padding="32dp"
+    android:fitsSystemWindows="true"
+    android:background="?android:attr/colorBackground">
 
-    <!-- Название приложения -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Система контроля посещаемости"
-        android:textSize="22sp"
+        android:text="Контроль посещаемости"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="#212121"
+        android:textColor="?attr/colorPrimary"
+        android:gravity="center"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Выберите раздел"
+        android:textSize="14sp"
+        android:textColor="?android:attr/textColorSecondary"
         android:gravity="center"
         android:layout_marginBottom="48dp" />
 
-    <!-- Кнопка Студенты -->
     <Button
         android:id="@+id/btnStudents"
+        style="@style/Widget.App.Button.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Студенты"
         android:textSize="16sp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="12dp" />
 
-    <!-- Кнопка Отметить посещаемость -->
     <Button
         android:id="@+id/btnAttendance"
+        style="@style/Widget.App.Button.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Отметить посещаемость"
         android:textSize="16sp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="12dp" />
 
-    <!-- Кнопка Статистика -->
     <Button
         android:id="@+id/btnStatistics"
+        style="@style/Widget.App.Button.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Статистика"

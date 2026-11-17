@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Primary — Indigo -->
+    <color name="indigo_900">#1A237E</color>
+    <color name="indigo_700">#303F9F</color>
+    <color name="indigo_500">#3949AB</color>
+    <color name="indigo_100">#C5CAE9</color>
+    <color name="indigo_50">#E8EAF6</color>
+
+    <!-- Header bar -->
+    <color name="header_bg">#303F9F</color>
+    <color name="header_title">#FFFFFF</color>
+    <color name="header_subtitle">#FFFFFF</color>
+
+    <!-- Counter bar (Dark & High Contrast) -->
+    <color name="counter_bar_bg">#232A4E</color>
+    <color name="counter_bar_title">#FFFFFF</color>
+    <color name="counter_bar_count">#FFD54F</color>
+
+    <!-- Accent — Amber -->
+    <color name="amber_600">#FFB300</color>
+    <color name="amber_200">#FFE082</color>
+
+    <!-- Neutrals -->
+    <color name="background">#F3F4F9</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#ECEEF8</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_background">#1C1B2E</color>
+    <color name="on_surface">#1C1B2E</color>
+    <color name="text_secondary">#5C5F72</color>
+    <color name="divider">#C7CBE3</color>
+
+    <!-- Student Cards (Dark Indigo) -->
+    <color name="student_card_bg">#232A4E</color>
+    <color name="student_card_title">#FFFFFF</color>
+    <color name="student_card_subtitle">#A8B2D6</color>
+    <color name="student_card_divider">#363F6E</color>
+
+    <!-- Semantic -->
+    <color name="error">#B00020</color>
+    <color name="delete_button">#EF5350</color>
+    <color name="delete_button_text">#FFFFFF</color>
 </resources>

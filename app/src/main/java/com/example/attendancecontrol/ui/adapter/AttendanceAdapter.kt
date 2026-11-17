@@ -1,4 +1,4 @@
-package com.example.attendancecontrol
+package com.example.attendancecontrol.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,14 +7,18 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.attendancecontrol.R
+import com.example.attendancecontrol.data.entity.StudentEntity
 
 class AttendanceAdapter(
-    private val students: List<StudentEntity> // <-- ИЗМЕНЕНО на StudentEntity
+    private val students: List<StudentEntity>
 ) : RecyclerView.Adapter<AttendanceAdapter.AttendanceViewHolder>() {
 
     private val selectedStatuses = mutableMapOf<Int, String>()
 
     class AttendanceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val groupHeaderLayout: View = view.findViewById(R.id.groupHeaderLayout)
+        val tvGroupHeader: TextView = view.findViewById(R.id.tvGroupHeader)
         val tvStudentName: TextView = view.findViewById(R.id.tvAttendanceStudentName)
         val rgStatus: RadioGroup = view.findViewById(R.id.rgStatus)
         val rbPresent: RadioButton = view.findViewById(R.id.rbPresent)
@@ -30,6 +34,16 @@ class AttendanceAdapter(
 
     override fun onBindViewHolder(holder: AttendanceViewHolder, position: Int) {
         val student = students[position]
+
+        // Показываем заголовок группы, если это первый студент группы
+        val isFirstInGroup = position == 0 || students[position - 1].groupName != student.groupName
+        if (isFirstInGroup) {
+            holder.groupHeaderLayout.visibility = View.VISIBLE
+            holder.tvGroupHeader.text = "Группа: ${student.groupName}"
+        } else {
+            holder.groupHeaderLayout.visibility = View.GONE
+        }
+
         holder.tvStudentName.text = "${student.lastName} ${student.firstName} (${student.groupName})"
 
         holder.rgStatus.setOnCheckedChangeListener(null)

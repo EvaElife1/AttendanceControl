@@ -1,7 +1,25 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.AttendanceControl" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<resources>
+    <!-- Night theme inherits the same brand colors — dark mode adjustments via Material3 -->
+    <style name="Base.Theme.AttendanceControl" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/indigo_100</item>
+        <item name="colorPrimaryDark">@color/indigo_900</item>
+        <item name="colorPrimaryContainer">@color/indigo_700</item>
+        <item name="colorOnPrimary">@color/indigo_900</item>
+        <item name="colorOnPrimaryContainer">@color/indigo_100</item>
+
+        <item name="colorSecondary">@color/amber_200</item>
+        <item name="colorSecondaryContainer">@color/amber_600</item>
+        <item name="colorOnSecondary">@color/on_background</item>
+
+        <item name="android:colorBackground">#12131F</item>
+        <item name="colorSurface">#1E2030</item>
+        <item name="colorSurfaceVariant">#2A2D3E</item>
+        <item name="colorOnBackground">@color/indigo_50</item>
+        <item name="colorOnSurface">@color/indigo_50</item>
+
+        <item name="android:statusBarColor">@color/indigo_900</item>
+        <item name="colorError">@color/error</item>
     </style>
+
+    <style name="Theme.AttendanceControl" parent="Base.Theme.AttendanceControl" />
 </resources>

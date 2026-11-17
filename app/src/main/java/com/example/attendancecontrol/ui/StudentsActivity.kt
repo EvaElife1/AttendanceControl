@@ -1,14 +1,21 @@
-package com.example.attendancecontrol
+package com.example.attendancecontrol.ui
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.attendancecontrol.R
+import com.example.attendancecontrol.data.db.AppDatabase
+import com.example.attendancecontrol.data.entity.StudentEntity
+import com.example.attendancecontrol.ui.adapter.StudentAdapter
+import com.example.attendancecontrol.util.applyStatusBarPadding
 import kotlinx.coroutines.launch
 
 class StudentsActivity : AppCompatActivity() {
@@ -18,6 +25,7 @@ class StudentsActivity : AppCompatActivity() {
     private lateinit var etGroup: EditText
     private lateinit var btnAddStudent: Button
     private lateinit var rvStudents: RecyclerView
+    private lateinit var tvStudentsCount: TextView
 
     private val studentsList = mutableListOf<StudentEntity>()
     private lateinit var adapter: StudentAdapter
@@ -27,6 +35,8 @@ class StudentsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_students)
 
+        findViewById<View>(R.id.headerLayout)?.let { applyStatusBarPadding(it) }
+
         db = AppDatabase.getDatabase(this)
 
         etLastName = findViewById(R.id.etLastName)
@@ -34,6 +44,7 @@ class StudentsActivity : AppCompatActivity() {
         etGroup = findViewById(R.id.etGroup)
         btnAddStudent = findViewById(R.id.btnAddStudent)
         rvStudents = findViewById(R.id.rvStudents)
+        tvStudentsCount = findViewById(R.id.tvStudentsCount)
 
         adapter = StudentAdapter(studentsList) { studentEntity -> showDeleteDialog(studentEntity) }
         rvStudents.layoutManager = LinearLayoutManager(this)
@@ -49,12 +60,12 @@ class StudentsActivity : AppCompatActivity() {
             studentsList.clear()
             studentsList.addAll(entities)
             adapter.notifyDataSetChanged()
+            tvStudentsCount.text = "Студентов: ${studentsList.size}"
         }
     }
 
     private fun addStudent() {
         val lastName = etLastName.text.toString().trim()
-        // ИСПРАВЛЕНО: text вместо text()
         val firstName = etFirstName.text.toString().trim()
         val group = etGroup.text.toString().trim()
 
