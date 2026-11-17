@@ -9,10 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class AttendanceAdapter(
-    private val students: List<Student>
+    private val students: List<StudentEntity> // <-- ИЗМЕНЕНО на StudentEntity
 ) : RecyclerView.Adapter<AttendanceAdapter.AttendanceViewHolder>() {
 
-    // Храним выбранные статусы по индексу студента
     private val selectedStatuses = mutableMapOf<Int, String>()
 
     class AttendanceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -33,7 +32,6 @@ class AttendanceAdapter(
         val student = students[position]
         holder.tvStudentName.text = "${student.lastName} ${student.firstName} (${student.groupName})"
 
-        // Восстанавливаем выбранный статус при переиспользовании View
         holder.rgStatus.setOnCheckedChangeListener(null)
 
         val savedStatus = selectedStatuses[position]
@@ -44,7 +42,6 @@ class AttendanceAdapter(
             else -> holder.rgStatus.clearCheck()
         }
 
-        // Обработка выбора статуса
         holder.rgStatus.setOnCheckedChangeListener { _, checkedId ->
             val status = when (checkedId) {
                 R.id.rbPresent -> "Присутствовал"
@@ -60,10 +57,6 @@ class AttendanceAdapter(
 
     override fun getItemCount(): Int = students.size
 
-    /**
-     * Возвращает Map, где ключ - индекс студента, значение - выбранный статус.
-     * Нужен для проверки, что все студенты отмечены.
-     */
     fun getSelectedStatuses(): Map<Int, String> {
         return selectedStatuses
     }

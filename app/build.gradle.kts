@@ -35,6 +35,8 @@ android {
 }
 
 dependencies {
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation("androidx.room:room-ktx:2.6.1")
     // Основные библиотеки (у вас уже есть)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.appcompat)

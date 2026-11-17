@@ -8,14 +8,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class StudentAdapter(
-    private val students: MutableList<StudentEntity>,
+    private val students: List<StudentEntity>,
     private val onDeleteClick: (StudentEntity) -> Unit
 ) : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() {
 
-    class StudentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvName: TextView = itemView.findViewById(R.id.tvStudentName)
-        val tvGroup: TextView = itemView.findViewById(R.id.tvStudentGroup)
-        val btnDelete: Button = itemView.findViewById(R.id.btnDelete)
+    class StudentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        // ИСПРАВЛЕНО: используем ID из XML
+        val tvName: TextView = view.findViewById(R.id.tvStudentName)
+        val tvGroup: TextView = view.findViewById(R.id.tvStudentGroup)
+        val btnDelete: Button = view.findViewById(R.id.btnDeleteStudent)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentViewHolder {
@@ -28,10 +29,7 @@ class StudentAdapter(
         val student = students[position]
         holder.tvName.text = "${student.lastName} ${student.firstName}"
         holder.tvGroup.text = "Группа: ${student.groupName}"
-
-        holder.btnDelete.setOnClickListener {
-            onDeleteClick(student)
-        }
+        holder.btnDelete.setOnClickListener { onDeleteClick(student) }
     }
 
     override fun getItemCount(): Int = students.size

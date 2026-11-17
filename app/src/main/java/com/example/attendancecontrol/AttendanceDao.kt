@@ -6,15 +6,8 @@ import androidx.room.Query
 
 @Dao
 interface AttendanceDao {
-
     @Insert
-    suspend fun insert(attendance: AttendanceEntity)
-
-    @Query("SELECT * FROM attendance WHERE studentId = :studentId")
-    suspend fun getByStudent(studentId: Int): List<AttendanceEntity>
-
-    @Query("SELECT * FROM attendance WHERE lessonDate = :date AND subject = :subject")
-    suspend fun getByLesson(date: String, subject: String): List<AttendanceEntity>
+    suspend fun insertAll(attendances: List<AttendanceEntity>)
 
     @Query("SELECT * FROM attendance")
     suspend fun getAll(): List<AttendanceEntity>

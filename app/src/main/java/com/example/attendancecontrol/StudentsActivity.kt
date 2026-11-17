@@ -19,16 +19,15 @@ class StudentsActivity : AppCompatActivity() {
     private lateinit var btnAddStudent: Button
     private lateinit var rvStudents: RecyclerView
 
-    private lateinit var studentDao: StudentDao
-    private val students = mutableListOf<StudentEntity>()
+    private val studentsList = mutableListOf<StudentEntity>()
     private lateinit var adapter: StudentAdapter
+    private lateinit var db: AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_students)
 
-        val db = AppDatabase.getDatabase(this)
-        studentDao = db.studentDao()
+        db = AppDatabase.getDatabase(this)
 
         etLastName = findViewById(R.id.etLastName)
         etFirstName = findViewById(R.id.etFirstName)
@@ -36,79 +35,55 @@ class StudentsActivity : AppCompatActivity() {
         btnAddStudent = findViewById(R.id.btnAddStudent)
         rvStudents = findViewById(R.id.rvStudents)
 
-        adapter = StudentAdapter(students) { student ->
-            showDeleteDialog(student)
-        }
+        adapter = StudentAdapter(studentsList) { studentEntity -> showDeleteDialog(studentEntity) }
         rvStudents.layoutManager = LinearLayoutManager(this)
         rvStudents.adapter = adapter
 
-        btnAddStudent.setOnClickListener {
-            addStudent()
-        }
-
+        btnAddStudent.setOnClickListener { addStudent() }
         loadStudents()
     }
 
     private fun loadStudents() {
         lifecycleScope.launch {
-            val list = studentDao.getAll()
-            students.clear()
-            students.addAll(list)
+            val entities = db.studentDao().getAll()
+            studentsList.clear()
+            studentsList.addAll(entities)
             adapter.notifyDataSetChanged()
         }
     }
 
     private fun addStudent() {
         val lastName = etLastName.text.toString().trim()
+        // ИСПРАВЛЕНО: text вместо text()
         val firstName = etFirstName.text.toString().trim()
         val group = etGroup.text.toString().trim()
 
-        val error = StudentValidator.validate(lastName, firstName, group)
-        if (error != null) {
-            when {
-                error.contains("фамилию") -> {
-                    etLastName.error = error
-                    etLastName.requestFocus()
-                }
-                error.contains("имя") -> {
-                    etFirstName.error = error
-                    etFirstName.requestFocus()
-                }
-                else -> {
-                    etGroup.error = error
-                    etGroup.requestFocus()
-                }
-            }
+        if (lastName.isEmpty() || firstName.isEmpty() || group.isEmpty()) {
+            Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val student = StudentEntity(
-            firstName = firstName,
-            lastName = lastName,
-            groupName = group
-        )
-
         lifecycleScope.launch {
-            studentDao.insert(student)
-            loadStudents()
+            db.studentDao().insert(
+                StudentEntity(firstName = firstName, lastName = lastName, groupName = group)
+            )
 
             etLastName.text.clear()
             etFirstName.text.clear()
             etGroup.text.clear()
-
             Toast.makeText(this@StudentsActivity, "Студент добавлен", Toast.LENGTH_SHORT).show()
+            loadStudents()
         }
     }
 
     private fun showDeleteDialog(student: StudentEntity) {
         AlertDialog.Builder(this)
-            .setTitle("Удаление студента")
+            .setTitle("Удаление")
             .setMessage("Удалить ${student.lastName} ${student.firstName}?")
             .setPositiveButton("Удалить") { _, _ ->
                 lifecycleScope.launch {
-                    studentDao.delete(student)
+                    db.studentDao().delete(student)
                     loadStudents()
-                    Toast.makeText(this@StudentsActivity, "Студент удалён", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Отмена", null)

@@ -5,15 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(
-    entities = [StudentEntity::class, AttendanceEntity::class],
-    version = 1,
-    exportSchema = false
-)
+// Добавили AttendanceEntity::class
+@Database(entities = [StudentEntity::class, AttendanceEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-
     abstract fun studentDao(): StudentDao
-    abstract fun attendanceDao(): AttendanceDao
+    abstract fun attendanceDao(): AttendanceDao // <-- ДОБАВИЛИ ЭТО
 
     companion object {
         @Volatile
@@ -25,7 +21,8 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "attendance_database"
-                ).build()
+                ).fallbackToDestructiveMigration() // Чтобы не падало при изменении схемы
+                    .build()
                 INSTANCE = instance
                 instance
             }

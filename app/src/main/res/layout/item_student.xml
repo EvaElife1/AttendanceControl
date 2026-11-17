@@ -3,10 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="12dp"
-    android:background="#FFFFFF"
-    android:layout_marginBottom="8dp"
-    android:elevation="2dp"
+    android:padding="8dp"
     android:gravity="center_vertical">
 
     <LinearLayout
@@ -19,26 +16,20 @@
             android:id="@+id/tvStudentName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Иванов Иван"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#212121" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvStudentGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Группа: ИС-21"
-            android:textSize="14sp"
-            android:textColor="#757575"
-            android:layout_marginTop="2dp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnDelete"
+        android:id="@+id/btnDeleteStudent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Удалить"
-        android:textSize="12sp" />
+        android:text="Удалить" />
 
 </LinearLayout>
