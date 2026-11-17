@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
-    // Если у вас используется Kotlin, добавьте эту строку (обычно она есть по умолчанию):
-    // alias(libs.plugins.kotlin.android)
+    // Добавлен плагин KSP для замены kapt
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -41,6 +41,13 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
+
+    // === Room (обратите внимание: используйте ksp вместо kapt) ===
+    // Если этих зависимостей ещё нет в libs.versions.toml, их нужно добавить вручную
+    val room_version = "2.8.4"
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")   // ← ключевое изменение: с kapt на ksp
 
     // ==========================================
     // БЛОК ДЛЯ АВТОТЕСТОВ (QA / DevOps)

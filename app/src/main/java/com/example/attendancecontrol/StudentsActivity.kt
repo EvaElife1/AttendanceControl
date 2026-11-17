@@ -6,8 +6,10 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 
 class StudentsActivity : AppCompatActivity() {
 
@@ -17,13 +19,16 @@ class StudentsActivity : AppCompatActivity() {
     private lateinit var btnAddStudent: Button
     private lateinit var rvStudents: RecyclerView
 
-    private val students = mutableListOf<Student>()
+    private lateinit var studentDao: StudentDao
+    private val students = mutableListOf<StudentEntity>()
     private lateinit var adapter: StudentAdapter
-    private var nextId = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_students)
+
+        val db = AppDatabase.getDatabase(this)
+        studentDao = db.studentDao()
 
         etLastName = findViewById(R.id.etLastName)
         etFirstName = findViewById(R.id.etFirstName)
@@ -40,14 +45,24 @@ class StudentsActivity : AppCompatActivity() {
         btnAddStudent.setOnClickListener {
             addStudent()
         }
+
+        loadStudents()
+    }
+
+    private fun loadStudents() {
+        lifecycleScope.launch {
+            val list = studentDao.getAll()
+            students.clear()
+            students.addAll(list)
+            adapter.notifyDataSetChanged()
+        }
     }
 
     private fun addStudent() {
-        val lastName = etLastName.text.toString()
-        val firstName = etFirstName.text.toString()
-        val group = etGroup.text.toString()
+        val lastName = etLastName.text.toString().trim()
+        val firstName = etFirstName.text.toString().trim()
+        val group = etGroup.text.toString().trim()
 
-        // Используем StudentValidator
         val error = StudentValidator.validate(lastName, firstName, group)
         if (error != null) {
             when {
@@ -67,33 +82,33 @@ class StudentsActivity : AppCompatActivity() {
             return
         }
 
-        val student = Student(
-            id = nextId++,
-            firstName = firstName.trim(),
-            lastName = lastName.trim(),
-            groupName = group.trim()
+        val student = StudentEntity(
+            firstName = firstName,
+            lastName = lastName,
+            groupName = group
         )
 
-        students.add(student)
-        adapter.notifyItemInserted(students.size - 1)
+        lifecycleScope.launch {
+            studentDao.insert(student)
+            loadStudents()
 
-        etLastName.text.clear()
-        etFirstName.text.clear()
-        etGroup.text.clear()
+            etLastName.text.clear()
+            etFirstName.text.clear()
+            etGroup.text.clear()
 
-        Toast.makeText(this, "Студент добавлен", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@StudentsActivity, "Студент добавлен", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun showDeleteDialog(student: Student) {
+    private fun showDeleteDialog(student: StudentEntity) {
         AlertDialog.Builder(this)
             .setTitle("Удаление студента")
             .setMessage("Удалить ${student.lastName} ${student.firstName}?")
             .setPositiveButton("Удалить") { _, _ ->
-                val position = students.indexOf(student)
-                if (position != -1) {
-                    students.removeAt(position)
-                    adapter.notifyItemRemoved(position)
-                    Toast.makeText(this, "Студент удалён", Toast.LENGTH_SHORT).show()
+                lifecycleScope.launch {
+                    studentDao.delete(student)
+                    loadStudents()
+                    Toast.makeText(this@StudentsActivity, "Студент удалён", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Отмена", null)
