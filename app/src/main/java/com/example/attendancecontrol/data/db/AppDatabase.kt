@@ -20,7 +20,21 @@ interface AttendanceDao {
 
     @Query("SELECT * FROM attendance")
     suspend fun getAll(): List<AttendanceEntity>
+
+    // Get attendance history for a specific student, ordered by date descending
+    @Query("SELECT * FROM attendance WHERE studentId = :studentId ORDER BY lessonDate DESC")
+    suspend fun getHistoryForStudent(studentId: Int): List<AttendanceEntity>
+
+    // Get count of each attendance status (e.g., Present, Absent)
+    @Query("SELECT status, COUNT(*) as count FROM attendance GROUP BY status")
+    suspend fun getStatusCounts(): List<StatusCount>
 }
+
+// Data class for status count aggregation
+data class StatusCount(
+    val status: String,
+    val count: Int
+)
 
 // ──────────────────────────────────────────────
 // База данных Room
@@ -40,7 +54,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "attendance_database"
-                ).fallbackToDestructiveMigration()
+                ).fallbackToDestructiveMigration(dropAllTables = true)
                     .build()
                 INSTANCE = instance
                 instance

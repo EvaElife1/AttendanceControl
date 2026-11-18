@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/statisticsRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="?android:attr/colorBackground">
 
-    <!-- Шапка экрана -->
+    <!-- ── Шапка ── -->
     <LinearLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/header_bg"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:paddingTop="16dp"
         android:paddingBottom="16dp">
 
@@ -30,36 +29,245 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Анализ посещаемости"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textColor="@color/header_subtitle"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="2dp" />
     </LinearLayout>
 
-    <!-- Заглушка -->
+    <!-- ── Прогресс (показывается пока идёт загрузка) ── -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:visibility="visible" />
+
+    <!-- ── Пустой стейт ── -->
     <LinearLayout
+        android:id="@+id/layoutEmpty"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="32dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Статистика появится здесь"
-            android:textSize="18sp"
+            android:text="Нет данных"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="?android:attr/textColorPrimary"
             android:gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Раздел находится в разработке"
+            android:text="Сохраните посещаемость на экране «Занятие», чтобы здесь появилась статистика."
             android:textSize="14sp"
             android:textColor="?android:attr/textColorSecondary"
             android:gravity="center"
+            android:lineSpacingMultiplier="1.4"
             android:layout_marginTop="8dp" />
     </LinearLayout>
+
+    <!-- ── Контент ── -->
+    <ScrollView
+        android:id="@+id/layoutContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- ── Секция: Сводка ── -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Сводка"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="?android:attr/textColorSecondary"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Карточки: Присутствовал / Отсутствовал / Опоздал -->
+            <LinearLayout
+                android:id="@+id/layoutCards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <!-- Присутствовал -->
+                <LinearLayout
+                    android:id="@+id/cardPresent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_stat_card"
+                    android:padding="14dp"
+                    android:gravity="center"
+                    android:layout_marginEnd="6dp">
+
+                    <TextView
+                        android:id="@+id/tvPresentCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/stat_present_text" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Присутствовал"
+                        android:textSize="11sp"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:gravity="center"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+
+                <!-- Отсутствовал -->
+                <LinearLayout
+                    android:id="@+id/cardAbsent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_stat_card"
+                    android:padding="14dp"
+                    android:gravity="center"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp">
+
+                    <TextView
+                        android:id="@+id/tvAbsentCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/stat_absent_text" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Отсутствовал"
+                        android:textSize="11sp"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:gravity="center"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+
+                <!-- Опоздал -->
+                <LinearLayout
+                    android:id="@+id/cardLate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_stat_card"
+                    android:padding="14dp"
+                    android:gravity="center"
+                    android:layout_marginStart="6dp">
+
+                    <TextView
+                        android:id="@+id/tvLateCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/stat_late_text" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Опоздал"
+                        android:textSize="11sp"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:gravity="center"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ── Прогресс-бар посещаемости ── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_stat_card"
+                android:padding="16dp"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Уровень посещаемости"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <TextView
+                        android:id="@+id/tvAttendancePct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/indigo_500" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/progressAttendance"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="10dp"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressTint="@color/indigo_500"
+                    android:progressBackgroundTint="?attr/colorSurfaceVariant" />
+            </LinearLayout>
+
+            <!-- ── Секция: Последние занятия ── -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Последние записи"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="?android:attr/textColorSecondary"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:clipToPadding="false" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">AttendanceControl</string>
+
+    <!-- Statistics screen -->
+    <string name="stats_empty">Нет данных для отображения.\nПроведите занятия и сохраните посещаемость.</string>
+    <string name="stats_summary_title">📊 Сводка посещаемости</string>
+    <string name="stats_recent_title">📋 Последние записи</string>
+    <string name="stats_error">Ошибка загрузки статистики:\n%s</string>
+    <string name="stats_pct">%d%%</string>
 </resources>
