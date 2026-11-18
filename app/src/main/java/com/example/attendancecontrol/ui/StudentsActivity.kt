@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -36,6 +37,10 @@ class StudentsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_students)
 
         findViewById<View>(R.id.headerLayout)?.let { applyStatusBarPadding(it) }
+
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
+            finish()
+        }
 
         db = AppDatabase.getDatabase(this)
 

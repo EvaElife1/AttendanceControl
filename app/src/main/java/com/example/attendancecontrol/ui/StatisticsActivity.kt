@@ -2,6 +2,7 @@ package com.example.attendancecontrol.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +40,10 @@ class StatisticsActivity : AppCompatActivity() {
 
         // Status-bar padding
         findViewById<View>(R.id.headerLayout)?.let { applyStatusBarPadding(it) }
+
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
+            finish()
+        }
 
         // Bind views
         progressBar       = findViewById(R.id.progressBar)
