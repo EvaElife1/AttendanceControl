@@ -9,14 +9,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.attendancecontrol.R
-import com.example.attendancecontrol.data.entity.AttendanceEntity
+import com.example.attendancecontrol.data.db.AttendanceWithStudent
 
-class HistoryAdapter : ListAdapter<AttendanceEntity, HistoryAdapter.ViewHolder>(DIFF) {
+class HistoryAdapter : ListAdapter<AttendanceWithStudent, HistoryAdapter.ViewHolder>(DIFF) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvDate: TextView = view.findViewById(R.id.tvDate)
-        val tvSubject: TextView = view.findViewById(R.id.tvSubject)
-        val tvStatus: TextView = view.findViewById(R.id.tvStatus)
+        val tvFullName: TextView = view.findViewById(R.id.tvFullName)
+        val tvGroup: TextView    = view.findViewById(R.id.tvGroup)
+        val tvSubject: TextView  = view.findViewById(R.id.tvSubject)
+        val tvDate: TextView     = view.findViewById(R.id.tvDate)
+        val tvStatus: TextView   = view.findViewById(R.id.tvStatus)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,13 +29,13 @@ class HistoryAdapter : ListAdapter<AttendanceEntity, HistoryAdapter.ViewHolder>(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.tvDate.text = item.lessonDate
-        holder.tvSubject.text = item.subject
+        holder.tvFullName.text = "${item.lastName} ${item.firstName}"
+        holder.tvGroup.text    = "Гр. ${item.groupName}"
+        holder.tvSubject.text  = item.subject
+        holder.tvDate.text     = item.lessonDate
+        holder.tvStatus.text   = item.status
 
         val ctx = holder.itemView.context
-        holder.tvStatus.text = item.status
-
-        // Окраска чипа статуса в зависимости от значения
         val (bgRes, fgColor) = when (item.status) {
             "Присутствовал" -> Pair(
                 R.drawable.bg_chip_present,
@@ -44,7 +46,7 @@ class HistoryAdapter : ListAdapter<AttendanceEntity, HistoryAdapter.ViewHolder>(
                 ContextCompat.getColor(ctx, R.color.stat_absent_text)
             )
             "Опоздал" -> Pair(
-                R.drawable.bg_chip_absent,  // переиспользуем форму, цвет другой
+                R.drawable.bg_chip_absent,
                 ContextCompat.getColor(ctx, R.color.stat_late_text)
             )
             else -> Pair(
@@ -57,9 +59,9 @@ class HistoryAdapter : ListAdapter<AttendanceEntity, HistoryAdapter.ViewHolder>(
     }
 
     companion object {
-        private val DIFF = object : DiffUtil.ItemCallback<AttendanceEntity>() {
-            override fun areItemsTheSame(a: AttendanceEntity, b: AttendanceEntity) = a.id == b.id
-            override fun areContentsTheSame(a: AttendanceEntity, b: AttendanceEntity) = a == b
+        private val DIFF = object : DiffUtil.ItemCallback<AttendanceWithStudent>() {
+            override fun areItemsTheSame(a: AttendanceWithStudent, b: AttendanceWithStudent) = a.id == b.id
+            override fun areContentsTheSame(a: AttendanceWithStudent, b: AttendanceWithStudent) = a == b
         }
     }
 }

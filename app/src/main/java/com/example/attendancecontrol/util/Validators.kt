@@ -29,3 +29,35 @@ fun applyStatusBarPadding(view: View) {
         insets
     }
 }
+
+/**
+ * Устанавливает нижний отступ под нижнюю панель навигации устройства (navigation bars / gestures).
+ * Добавляет высоту панели к исходному нижнему padding представления.
+ */
+fun applyNavigationBarPadding(view: View) {
+    val initialPaddingBottom = view.paddingBottom
+    ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+        val navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+        v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, initialPaddingBottom + navBarHeight)
+        insets
+    }
+}
+
+/**
+ * Комбинированный отступ: верхний под статус-бар и нижний под панель навигации.
+ * Полезно для полноэкранных контейнеров (например, главного экрана).
+ */
+fun applySystemBarsPadding(view: View) {
+    val initialTop = view.paddingTop
+    val initialBottom = view.paddingBottom
+    ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+        val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        v.setPadding(
+            v.paddingLeft,
+            initialTop + systemBars.top,
+            v.paddingRight,
+            initialBottom + systemBars.bottom
+        )
+        insets
+    }
+}

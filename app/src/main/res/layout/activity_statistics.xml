@@ -103,9 +103,11 @@
         android:fillViewport="true">
 
         <LinearLayout
+            android:id="@+id/contentContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:clipToPadding="false"
             android:padding="16dp">
 
             <!-- ── Секция: Сводка ── -->
@@ -113,10 +115,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Сводка"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="?android:attr/textColorSecondary"
-                android:letterSpacing="0.08"
+                android:letterSpacing="0.06"
                 android:layout_marginBottom="8dp" />
 
             <!-- Карточки: Присутствовал / Отсутствовал / Опоздал -->
@@ -125,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="14dp">
 
                 <!-- Присутствовал -->
                 <LinearLayout
@@ -135,16 +137,16 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:background="@drawable/bg_stat_card"
-                    android:padding="14dp"
+                    android:padding="12dp"
                     android:gravity="center"
-                    android:layout_marginEnd="6dp">
+                    android:layout_marginEnd="5dp">
 
                     <TextView
                         android:id="@+id/tvPresentCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textSize="26sp"
+                        android:textSize="24sp"
                         android:textStyle="bold"
                         android:textColor="@color/stat_present_text" />
 
@@ -166,17 +168,17 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:background="@drawable/bg_stat_card"
-                    android:padding="14dp"
+                    android:padding="12dp"
                     android:gravity="center"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp">
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp">
 
                     <TextView
                         android:id="@+id/tvAbsentCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textSize="26sp"
+                        android:textSize="24sp"
                         android:textStyle="bold"
                         android:textColor="@color/stat_absent_text" />
 
@@ -198,16 +200,16 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:background="@drawable/bg_stat_card"
-                    android:padding="14dp"
+                    android:padding="12dp"
                     android:gravity="center"
-                    android:layout_marginStart="6dp">
+                    android:layout_marginStart="5dp">
 
                     <TextView
                         android:id="@+id/tvLateCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textSize="26sp"
+                        android:textSize="24sp"
                         android:textStyle="bold"
                         android:textColor="@color/stat_late_text" />
 
@@ -228,8 +230,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/bg_stat_card"
-                android:padding="16dp"
-                android:layout_marginBottom="20dp">
+                android:padding="14dp"
+                android:layout_marginBottom="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -242,7 +244,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Уровень посещаемости"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:textStyle="bold"
                         android:textColor="?attr/colorOnSurface" />
 
@@ -251,7 +253,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0%"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/indigo_500" />
                 </LinearLayout>
@@ -260,24 +262,121 @@
                     android:id="@+id/progressAttendance"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="8dp"
                     android:max="100"
                     android:progress="0"
                     android:progressTint="@color/indigo_500"
                     android:progressBackgroundTint="?attr/colorSurfaceVariant" />
             </LinearLayout>
 
-            <!-- ── Секция: Последние занятия ── -->
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- ── Секция: Фильтрация (Компактный дизайн) ── -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Последние записи"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:textColor="?android:attr/textColorSecondary"
-                android:letterSpacing="0.08"
-                android:layout_marginBottom="8dp" />
+                android:orientation="vertical"
+                android:background="@drawable/bg_stat_card"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Фильтр записей"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurface"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Строка с 2 компактными селекторами рядом -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Фильтр по группе -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginEnd="6dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Группа"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:textColor="?android:attr/textColorSecondary"
+                            android:layout_marginBottom="4dp" />
+
+                        <Spinner
+                            android:id="@+id/spinnerGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="38dp"
+                            android:background="@drawable/bg_spinner_compact"
+                            android:paddingHorizontal="4dp"
+                            android:popupBackground="@drawable/bg_spinner_popup"
+                            android:spinnerMode="dropdown" />
+                    </LinearLayout>
+
+                    <!-- Фильтр по статусу -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="6dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Статус"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:textColor="?android:attr/textColorSecondary"
+                            android:layout_marginBottom="4dp" />
+
+                        <Spinner
+                            android:id="@+id/spinnerStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="38dp"
+                            android:background="@drawable/bg_spinner_compact"
+                            android:paddingHorizontal="4dp"
+                            android:popupBackground="@drawable/bg_spinner_popup"
+                            android:spinnerMode="dropdown" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ── Секция: Список записей ── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Записи"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:letterSpacing="0.06" />
+
+                <TextView
+                    android:id="@+id/tvFilteredCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="12sp"
+                    android:textColor="?android:attr/textColorSecondary" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvHistory"

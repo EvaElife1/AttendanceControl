@@ -49,17 +49,10 @@
     <!-- Statistics status chips -->
     <color name="stat_present_bg">#E8F5E9</color>
     <color name="stat_present_text">#2E7D32</color>
-    <color name="stat_present_icon">#43A047</color>
     <color name="stat_absent_bg">#FFEBEE</color>
     <color name="stat_absent_text">#C62828</color>
-    <color name="stat_absent_icon">#E53935</color>
     <color name="stat_late_bg">#FFF8E1</color>
     <color name="stat_late_text">#E65100</color>
-    <color name="stat_late_icon">#FB8C00</color>
     <color name="stat_other_bg">#EDE7F6</color>
     <color name="stat_other_text">#4527A0</color>
-    <color name="stat_other_icon">#7E57C2</color>
-
-    <!-- Progress bar track -->
-    <color name="progress_track">#C5CAE9</color>
 </resources>

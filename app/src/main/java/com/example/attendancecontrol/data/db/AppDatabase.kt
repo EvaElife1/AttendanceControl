@@ -11,6 +11,26 @@ import com.example.attendancecontrol.data.entity.AttendanceEntity
 import com.example.attendancecontrol.data.entity.StudentEntity
 
 // ──────────────────────────────────────────────
+// Data class for status count aggregation
+// ──────────────────────────────────────────────
+data class StatusCount(
+    val status: String,
+    val count: Int
+)
+
+// Data class combining attendance + student info
+data class AttendanceWithStudent(
+    val id: Int,
+    val studentId: Int,
+    val lessonDate: String,
+    val subject: String,
+    val status: String,
+    val firstName: String,
+    val lastName: String,
+    val groupName: String
+)
+
+// ──────────────────────────────────────────────
 // DAO посещаемости (небольшой — хранится здесь)
 // ──────────────────────────────────────────────
 @Dao
@@ -28,13 +48,21 @@ interface AttendanceDao {
     // Get count of each attendance status (e.g., Present, Absent)
     @Query("SELECT status, COUNT(*) as count FROM attendance GROUP BY status")
     suspend fun getStatusCounts(): List<StatusCount>
-}
 
-// Data class for status count aggregation
-data class StatusCount(
-    val status: String,
-    val count: Int
-)
+    // Join attendance with students to get full info
+    @Query("""
+        SELECT a.id, a.studentId, a.lessonDate, a.subject, a.status,
+               s.firstName, s.lastName, s.groupName
+        FROM attendance a
+        INNER JOIN students s ON a.studentId = s.id
+        ORDER BY a.lessonDate DESC
+    """)
+    suspend fun getAllWithStudent(): List<AttendanceWithStudent>
+
+    // Get distinct group names for filter
+    @Query("SELECT DISTINCT s.groupName FROM attendance a INNER JOIN students s ON a.studentId = s.id ORDER BY s.groupName ASC")
+    suspend fun getDistinctGroups(): List<String>
+}
 
 // ──────────────────────────────────────────────
 // База данных Room

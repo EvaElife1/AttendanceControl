@@ -16,6 +16,7 @@ import com.example.attendancecontrol.data.db.AppDatabase
 import com.example.attendancecontrol.data.entity.AttendanceEntity
 import com.example.attendancecontrol.data.entity.StudentEntity
 import com.example.attendancecontrol.ui.adapter.AttendanceAdapter
+import com.example.attendancecontrol.util.applyNavigationBarPadding
 import com.example.attendancecontrol.util.applyStatusBarPadding
 import kotlinx.coroutines.launch
 import java.text.ParseException
@@ -34,6 +35,7 @@ class AttendanceActivity : AppCompatActivity() {
         setContentView(R.layout.activity_attendance)
 
         findViewById<View>(R.id.headerLayout)?.let { applyStatusBarPadding(it) }
+        findViewById<View>(R.id.rvAttendance)?.let { applyNavigationBarPadding(it) }
 
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
             finish()

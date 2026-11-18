@@ -16,6 +16,7 @@ import com.example.attendancecontrol.R
 import com.example.attendancecontrol.data.db.AppDatabase
 import com.example.attendancecontrol.data.entity.StudentEntity
 import com.example.attendancecontrol.ui.adapter.StudentAdapter
+import com.example.attendancecontrol.util.applyNavigationBarPadding
 import com.example.attendancecontrol.util.applyStatusBarPadding
 import kotlinx.coroutines.launch
 
@@ -37,6 +38,7 @@ class StudentsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_students)
 
         findViewById<View>(R.id.headerLayout)?.let { applyStatusBarPadding(it) }
+        findViewById<View>(R.id.rvStudents)?.let { applyNavigationBarPadding(it) }
 
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
             finish()
@@ -74,8 +76,9 @@ class StudentsActivity : AppCompatActivity() {
         val firstName = etFirstName.text.toString().trim()
         val group = etGroup.text.toString().trim()
 
-        if (lastName.isEmpty() || firstName.isEmpty() || group.isEmpty()) {
-            Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show()
+        val validationError = com.example.attendancecontrol.util.StudentValidator.validate(lastName, firstName, group)
+        if (validationError != null) {
+            Toast.makeText(this, validationError, Toast.LENGTH_SHORT).show()
             return
         }
 
