@@ -24,6 +24,21 @@
                   <entry key="Duration" value="90" />
                   <entry key="TECNO TECNO CM7" value="120" />
                   <entry key="Tests" value="360" />
+                  <entry key="Xiaomi 24069PC21G" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="12423707">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="TECNO TECNO CM7" value="120" />
+                  <entry key="Tests" value="360" />
+                  <entry key="Xiaomi 24069PC21G" value="120" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
@@ -38,6 +53,19 @@
                   <entry key="TECNO TECNO CM7" value="120" />
                   <entry key="Tests" value="360" />
                   <entry key="Xiaomi 24069PC21G" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="789198378">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="TECNO TECNO CM7" value="120" />
+                  <entry key="Tests" value="360" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
