@@ -23,6 +23,11 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+/**
+ * Экран отметки посещаемости.
+ * Загружает список студентов, позволяет указать предмет и дату,
+ * выбрать статус для каждого студента и сохранить всё в БД.
+ */
 class AttendanceActivity : AppCompatActivity() {
 
     private val studentsList = mutableListOf<StudentEntity>()
@@ -34,20 +39,19 @@ class AttendanceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_attendance)
 
+        // Отступы под статус-бар (шапка) и навигационную панель (список)
         findViewById<View>(R.id.headerLayout)?.let { applyStatusBarPadding(it) }
         findViewById<View>(R.id.rvAttendance)?.let { applyNavigationBarPadding(it) }
 
-        findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
-            finish()
-        }
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
 
         db = AppDatabase.getDatabase(this)
 
-        val etSubject = findViewById<EditText>(R.id.etSubject)
-        val etDate = findViewById<EditText>(R.id.etDate)
-        val btnSave = findViewById<Button>(R.id.btnSaveAttendance)
+        val etSubject    = findViewById<EditText>(R.id.etSubject)
+        val etDate       = findViewById<EditText>(R.id.etDate)
+        val btnSave      = findViewById<Button>(R.id.btnSaveAttendance)
         val rvAttendance = findViewById<RecyclerView>(R.id.rvAttendance)
-        tvStudentsCount = findViewById(R.id.tvStudentsCount)
+        tvStudentsCount  = findViewById(R.id.tvStudentsCount)
 
         adapter = AttendanceAdapter(studentsList)
         rvAttendance.layoutManager = LinearLayoutManager(this)
@@ -57,18 +61,21 @@ class AttendanceActivity : AppCompatActivity() {
 
         btnSave.setOnClickListener {
             val subject = etSubject.text.toString().trim()
-            val date = etDate.text.toString().trim()
+            val date    = etDate.text.toString().trim()
 
+            // Проверяем, что поля не пустые
             if (subject.isEmpty() || date.isEmpty()) {
                 Toast.makeText(this, "Заполните дисциплину и дату", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
+            // Проверяем формат даты ГГГГ-ММ-ДД
             if (!isValidDate(date)) {
                 etDate.error = "Введите дату в формате ГГГГ-ММ-ДД"
                 return@setOnClickListener
             }
 
+            // Проверяем, что для всех студентов выбран статус
             val selectedStatuses = adapter.getSelectedStatuses()
             if (selectedStatuses.size < studentsList.size) {
                 Toast.makeText(this, "Отметьте статус для всех студентов", Toast.LENGTH_SHORT).show()
@@ -79,6 +86,7 @@ class AttendanceActivity : AppCompatActivity() {
         }
     }
 
+    /** Загружает список всех студентов из БД для отображения в RecyclerView */
     private fun loadStudentsFromDb() {
         lifecycleScope.launch {
             val entities = db.studentDao().getAll()
@@ -89,6 +97,7 @@ class AttendanceActivity : AppCompatActivity() {
         }
     }
 
+    /** Создаёт и сохраняет записи посещаемости в БД для каждого студента */
     private fun saveAttendanceToDb(subject: String, date: String, statuses: Map<Int, String>) {
         lifecycleScope.launch {
             val recordsToInsert = mutableListOf<AttendanceEntity>()
@@ -96,10 +105,10 @@ class AttendanceActivity : AppCompatActivity() {
                 val student = studentsList[index]
                 recordsToInsert.add(
                     AttendanceEntity(
-                        studentId = student.id,
+                        studentId  = student.id,
                         lessonDate = date,
-                        subject = subject,
-                        status = status
+                        subject    = subject,
+                        status     = status
                     )
                 )
             }
@@ -108,6 +117,7 @@ class AttendanceActivity : AppCompatActivity() {
         }
     }
 
+    /** Проверяет, что строка соответствует формату даты ГГГГ-ММ-ДД и является корректной датой */
     private fun isValidDate(dateStr: String): Boolean {
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         sdf.isLenient = false

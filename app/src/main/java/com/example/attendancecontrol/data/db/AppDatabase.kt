@@ -10,15 +10,17 @@ import androidx.room.RoomDatabase
 import com.example.attendancecontrol.data.entity.AttendanceEntity
 import com.example.attendancecontrol.data.entity.StudentEntity
 
-// ──────────────────────────────────────────────
-// Data class for status count aggregation
-// ──────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────
+// Вспомогательные data class-ы для запросов
+// ──────────────────────────────────────────────────────────────
+
+/** Результат агрегирующего запроса: статус и его количество */
 data class StatusCount(
     val status: String,
     val count: Int
 )
 
-// Data class combining attendance + student info
+/** JOIN-результат: запись посещаемости с данными студента (ФИО, группа) */
 data class AttendanceWithStudent(
     val id: Int,
     val studentId: Int,
@@ -30,26 +32,30 @@ data class AttendanceWithStudent(
     val groupName: String
 )
 
-// ──────────────────────────────────────────────
-// DAO посещаемости (небольшой — хранится здесь)
-// ──────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────
+// DAO посещаемости
+// ──────────────────────────────────────────────────────────────
+
 @Dao
 interface AttendanceDao {
+
+    /** Вставляет список записей посещаемости в таблицу */
     @Insert
     suspend fun insertAll(attendances: List<AttendanceEntity>)
 
+    /** Возвращает все записи посещаемости без фильтрации */
     @Query("SELECT * FROM attendance")
     suspend fun getAll(): List<AttendanceEntity>
 
-    // Get attendance history for a specific student, ordered by date descending
+    /** Возвращает историю посещаемости конкретного студента, сортировка по дате убывания */
     @Query("SELECT * FROM attendance WHERE studentId = :studentId ORDER BY lessonDate DESC")
     suspend fun getHistoryForStudent(studentId: Int): List<AttendanceEntity>
 
-    // Get count of each attendance status (e.g., Present, Absent)
+    /** Возвращает количество записей для каждого статуса (для сводных карточек) */
     @Query("SELECT status, COUNT(*) as count FROM attendance GROUP BY status")
     suspend fun getStatusCounts(): List<StatusCount>
 
-    // Join attendance with students to get full info
+    /** Возвращает все записи с JOIN-данными студента — ФИО и группой (для экрана статистики) */
     @Query("""
         SELECT a.id, a.studentId, a.lessonDate, a.subject, a.status,
                s.firstName, s.lastName, s.groupName
@@ -59,16 +65,18 @@ interface AttendanceDao {
     """)
     suspend fun getAllWithStudent(): List<AttendanceWithStudent>
 
-    // Get distinct group names for filter
+    /** Возвращает список уникальных групп из записей посещаемости (для фильтра-спиннера) */
     @Query("SELECT DISTINCT s.groupName FROM attendance a INNER JOIN students s ON a.studentId = s.id ORDER BY s.groupName ASC")
     suspend fun getDistinctGroups(): List<String>
 }
 
-// ──────────────────────────────────────────────
-// База данных Room
-// ──────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────
+// База данных Room — Singleton
+// ──────────────────────────────────────────────────────────────
+
 @Database(entities = [StudentEntity::class, AttendanceEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
+
     abstract fun studentDao(): StudentDao
     abstract fun attendanceDao(): AttendanceDao
 
@@ -76,6 +84,7 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
+        /** Возвращает единственный экземпляр базы данных (Singleton) */
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(

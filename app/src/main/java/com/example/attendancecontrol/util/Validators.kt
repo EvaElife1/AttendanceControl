@@ -4,22 +4,29 @@ import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
+/**
+ * Валидатор данных студента.
+ * Используется перед добавлением студента в БД.
+ */
 object StudentValidator {
 
+    /**
+     * Проверяет корректность введённых данных студента.
+     * @return строка с описанием первой найденной ошибки, или null если всё корректно
+     */
     fun validate(lastName: String, firstName: String, group: String): String? {
         return when {
-            lastName.trim().isEmpty() -> "Введите фамилию"
+            lastName.trim().isEmpty()  -> "Введите фамилию"
             firstName.trim().isEmpty() -> "Введите имя"
-            group.trim().isEmpty() -> "Введите группу"
-            else -> null
+            group.trim().isEmpty()     -> "Введите группу"
+            else                       -> null
         }
     }
 }
 
 /**
- * Устанавливает верхний отступ только под статус-бар.
- * Не реагирует на появление экранной клавиатуры (IME), благодаря чему
- * высота верхней плашки остаётся фиксированной и не раздувается.
+ * Устанавливает верхний padding под статус-бар для указанного View.
+ * Не реагирует на появление клавиатуры (IME), поэтому высота шапки остаётся стабильной.
  */
 fun applyStatusBarPadding(view: View) {
     val initialPaddingTop = view.paddingTop
@@ -31,8 +38,8 @@ fun applyStatusBarPadding(view: View) {
 }
 
 /**
- * Устанавливает нижний отступ под нижнюю панель навигации устройства (navigation bars / gestures).
- * Добавляет высоту панели к исходному нижнему padding представления.
+ * Устанавливает нижний padding под навигационную панель (кнопки или жестовая полоса).
+ * Применяется к прокручиваемым контейнерам, чтобы последний элемент не перекрывался панелью.
  */
 fun applyNavigationBarPadding(view: View) {
     val initialPaddingBottom = view.paddingBottom
@@ -44,17 +51,17 @@ fun applyNavigationBarPadding(view: View) {
 }
 
 /**
- * Комбинированный отступ: верхний под статус-бар и нижний под панель навигации.
- * Полезно для полноэкранных контейнеров (например, главного экрана).
+ * Устанавливает padding сразу под статус-бар (сверху) и навигационную панель (снизу).
+ * Используется для полноэкранных корневых контейнеров (например, главный экран).
  */
 fun applySystemBarsPadding(view: View) {
-    val initialTop = view.paddingTop
+    val initialTop    = view.paddingTop
     val initialBottom = view.paddingBottom
     ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
         val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
         v.setPadding(
             v.paddingLeft,
-            initialTop + systemBars.top,
+            initialTop    + systemBars.top,
             v.paddingRight,
             initialBottom + systemBars.bottom
         )

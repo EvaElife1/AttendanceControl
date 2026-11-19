@@ -16,10 +16,15 @@ import com.example.attendancecontrol.R
 import com.example.attendancecontrol.data.db.AppDatabase
 import com.example.attendancecontrol.data.entity.StudentEntity
 import com.example.attendancecontrol.ui.adapter.StudentAdapter
+import com.example.attendancecontrol.util.StudentValidator
 import com.example.attendancecontrol.util.applyNavigationBarPadding
 import com.example.attendancecontrol.util.applyStatusBarPadding
 import kotlinx.coroutines.launch
 
+/**
+ * Экран управления студентами.
+ * Позволяет добавлять новых студентов через форму и удалять существующих.
+ */
 class StudentsActivity : AppCompatActivity() {
 
     private lateinit var etLastName: EditText
@@ -37,23 +42,22 @@ class StudentsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_students)
 
+        // Отступы под статус-бар (шапка) и навигационную панель (список)
         findViewById<View>(R.id.headerLayout)?.let { applyStatusBarPadding(it) }
         findViewById<View>(R.id.rvStudents)?.let { applyNavigationBarPadding(it) }
 
-        findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
-            finish()
-        }
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
 
         db = AppDatabase.getDatabase(this)
 
-        etLastName = findViewById(R.id.etLastName)
-        etFirstName = findViewById(R.id.etFirstName)
-        etGroup = findViewById(R.id.etGroup)
-        btnAddStudent = findViewById(R.id.btnAddStudent)
-        rvStudents = findViewById(R.id.rvStudents)
+        etLastName      = findViewById(R.id.etLastName)
+        etFirstName     = findViewById(R.id.etFirstName)
+        etGroup         = findViewById(R.id.etGroup)
+        btnAddStudent   = findViewById(R.id.btnAddStudent)
+        rvStudents      = findViewById(R.id.rvStudents)
         tvStudentsCount = findViewById(R.id.tvStudentsCount)
 
-        adapter = StudentAdapter(studentsList) { studentEntity -> showDeleteDialog(studentEntity) }
+        adapter = StudentAdapter(studentsList) { student -> showDeleteDialog(student) }
         rvStudents.layoutManager = LinearLayoutManager(this)
         rvStudents.adapter = adapter
 
@@ -61,6 +65,7 @@ class StudentsActivity : AppCompatActivity() {
         loadStudents()
     }
 
+    /** Загружает всех студентов из БД и обновляет список и счётчик */
     private fun loadStudents() {
         lifecycleScope.launch {
             val entities = db.studentDao().getAll()
@@ -71,12 +76,14 @@ class StudentsActivity : AppCompatActivity() {
         }
     }
 
+    /** Валидирует поля формы и добавляет нового студента в БД */
     private fun addStudent() {
-        val lastName = etLastName.text.toString().trim()
+        val lastName  = etLastName.text.toString().trim()
         val firstName = etFirstName.text.toString().trim()
-        val group = etGroup.text.toString().trim()
+        val group     = etGroup.text.toString().trim()
 
-        val validationError = com.example.attendancecontrol.util.StudentValidator.validate(lastName, firstName, group)
+        // Используем общий валидатор для проверки полей
+        val validationError = StudentValidator.validate(lastName, firstName, group)
         if (validationError != null) {
             Toast.makeText(this, validationError, Toast.LENGTH_SHORT).show()
             return
@@ -86,7 +93,6 @@ class StudentsActivity : AppCompatActivity() {
             db.studentDao().insert(
                 StudentEntity(firstName = firstName, lastName = lastName, groupName = group)
             )
-
             etLastName.text.clear()
             etFirstName.text.clear()
             etGroup.text.clear()
@@ -95,6 +101,7 @@ class StudentsActivity : AppCompatActivity() {
         }
     }
 
+    /** Показывает диалог подтверждения удаления студента */
     private fun showDeleteDialog(student: StudentEntity) {
         AlertDialog.Builder(this)
             .setTitle("Удаление")
