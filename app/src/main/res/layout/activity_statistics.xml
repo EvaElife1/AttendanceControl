@@ -285,7 +285,7 @@
                     android:text="Фильтр записей"
                     android:textSize="13sp"
                     android:textStyle="bold"
-                    android:textColor="?attr/colorOnSurface"
+                    android:textColor="@color/on_surface"
                     android:layout_marginBottom="8dp" />
 
                 <!-- Строка с 2 компактными селекторами рядом -->
