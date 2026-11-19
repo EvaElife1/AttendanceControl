@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="32dp"
-    android:background="?android:attr/colorBackground">
+    android:background="@color/background">
 
     <TextView
         android:layout_width="wrap_content"
@@ -14,7 +14,7 @@
         android:text="Контроль посещаемости"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="@color/indigo_900"
         android:gravity="center"
         android:layout_marginBottom="8dp" />
 
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:text="Выберите раздел"
         android:textSize="14sp"
-        android:textColor="?android:attr/textColorSecondary"
+        android:textColor="@color/text_secondary"
         android:gravity="center"
         android:layout_marginBottom="48dp" />
 
@@ -51,6 +51,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Статистика"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:layout_marginBottom="28dp" />
+
+    <Button
+        android:id="@+id/btnLogout"
+        style="@style/Widget.App.Button.Delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Выйти из аккаунта"
+        android:textAllCaps="false"
+        android:textSize="15sp" />
 
 </LinearLayout>
