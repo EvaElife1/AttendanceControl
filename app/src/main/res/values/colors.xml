@@ -1,58 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Primary — Indigo -->
-    <color name="indigo_900">#1A237E</color>
-    <color name="indigo_700">#303F9F</color>
-    <color name="indigo_500">#3949AB</color>
-    <color name="indigo_100">#C5CAE9</color>
-    <color name="indigo_50">#E8EAF6</color>
+    <!-- Indigo accent -->
+    <color name="indigo_900">#DDE2FF</color>
+    <color name="indigo_700">#9FA8DA</color>
+    <color name="indigo_500">#8C9EFF</color>
+    <color name="indigo_100">#39436B</color>
+    <color name="indigo_50">#252B43</color>
 
-    <!-- Header bar -->
-    <color name="header_bg">#303F9F</color>
+    <!-- Header -->
+    <color name="header_bg">#252B43</color>
     <color name="header_title">#FFFFFF</color>
-    <color name="header_subtitle">#FFFFFF</color>
+    <color name="header_subtitle">#D0D5EA</color>
 
-    <!-- Counter bar (Dark & High Contrast) -->
-    <color name="counter_bar_bg">#232A4E</color>
+    <!-- Counter -->
+    <color name="counter_bar_bg">#151A2B</color>
     <color name="counter_bar_title">#FFFFFF</color>
     <color name="counter_bar_count">#FFD54F</color>
 
-    <!-- Accent — Amber -->
-    <color name="amber_600">#FFB300</color>
-    <color name="amber_200">#FFE082</color>
+    <!-- Accent -->
+    <color name="amber_600">#FFCA28</color>
+    <color name="amber_200">#6D5720</color>
 
-    <!-- Neutrals -->
-    <color name="background">#F3F4F9</color>
-    <color name="surface">#FFFFFF</color>
-    <color name="surface_variant">#ECEEF8</color>
-    <color name="on_primary">#FFFFFF</color>
-    <color name="on_background">#1C1B2E</color>
-    <color name="on_surface">#1C1B2E</color>
-    <color name="text_secondary">#5C5F72</color>
-    <color name="divider">#C7CBE3</color>
+    <!-- Dark surfaces -->
+    <color name="background">#10131D</color>
+    <color name="surface">#1B2030</color>
+    <color name="surface_variant">#2B3248</color>
+    <color name="on_primary">#10131D</color>
+    <color name="on_background">#F1F2FA</color>
+    <color name="on_surface">#F1F2FA</color>
+    <color name="text_secondary">#B7BED3</color>
+    <color name="divider">#343B52</color>
 
-    <!-- Student Cards (Dark Indigo) -->
-    <color name="student_card_bg">#232A4E</color>
+    <!-- Student cards -->
+    <color name="student_card_bg">#202741</color>
     <color name="student_card_title">#FFFFFF</color>
-    <color name="student_card_subtitle">#A8B2D6</color>
-    <color name="student_card_divider">#363F6E</color>
+    <color name="student_card_subtitle">#B7C1E8</color>
+    <color name="student_card_divider">#394361</color>
 
     <!-- Semantic -->
-    <color name="error">#B00020</color>
-    <color name="delete_button">#EF5350</color>
+    <color name="error">#FF8A80</color>
+    <color name="delete_button">#B3261E</color>
     <color name="delete_button_text">#FFFFFF</color>
 
     <!-- Statistics status chips -->
-    <color name="stat_present_bg">#E8F5E9</color>
-    <color name="stat_present_text">#2E7D32</color>
-    <color name="stat_absent_bg">#FFEBEE</color>
-    <color name="stat_absent_text">#C62828</color>
-    <color name="stat_late_bg">#FFF8E1</color>
-    <color name="stat_late_text">#E65100</color>
-    <color name="stat_other_bg">#EDE7F6</color>
-    <color name="stat_other_text">#4527A0</color>
+    <color name="stat_present_bg">#1B3A2A</color>
+    <color name="stat_present_text">#A5D6A7</color>
+    <color name="stat_absent_bg">#4A2429</color>
+    <color name="stat_absent_text">#FFB4AB</color>
+    <color name="stat_late_bg">#493719</color>
+    <color name="stat_late_text">#FFD180</color>
+    <color name="stat_other_bg">#33264D</color>
+    <color name="stat_other_text">#D0BCFF</color>
 </resources>
