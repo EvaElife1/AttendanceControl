@@ -1,48 +1,40 @@
 <resources>
-    <style name="Base.Theme.AttendanceControl" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Primary brand color -->
+    <style name="Base.Theme.AttendanceControl" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/indigo_500</item>
-        <item name="colorPrimaryDark">@color/indigo_900</item>
+        <item name="colorPrimaryDark">@color/background</item>
         <item name="colorPrimaryContainer">@color/indigo_100</item>
         <item name="colorOnPrimary">@color/on_primary</item>
         <item name="colorOnPrimaryContainer">@color/indigo_900</item>
 
-        <!-- Secondary / accent -->
         <item name="colorSecondary">@color/amber_600</item>
         <item name="colorSecondaryContainer">@color/amber_200</item>
-        <item name="colorOnSecondary">@color/on_background</item>
+        <item name="colorOnSecondary">@color/background</item>
 
-        <!-- Backgrounds -->
         <item name="android:colorBackground">@color/background</item>
         <item name="colorSurface">@color/surface</item>
         <item name="colorSurfaceVariant">@color/surface_variant</item>
         <item name="colorOnBackground">@color/on_background</item>
         <item name="colorOnSurface">@color/on_surface</item>
 
-        <!-- Status bar прозрачный — контент сам управляет отступом через fitsSystemWindows -->
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:navigationBarColor">@color/background</item>
         <item name="android:windowLightStatusBar">false</item>
-
-        <!-- Error -->
+        <item name="android:windowLightNavigationBar">false</item>
         <item name="colorError">@color/error</item>
     </style>
 
     <style name="Theme.AttendanceControl" parent="Base.Theme.AttendanceControl" />
 
-    <!-- Стиль заголовка экрана -->
     <style name="TextAppearance.App.ScreenTitle" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="android:textColor">@color/indigo_900</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <!-- Стиль основной кнопки -->
     <style name="Widget.App.Button.Primary" parent="Widget.Material3.Button">
         <item name="backgroundTint">@color/indigo_500</item>
         <item name="android:textColor">@color/on_primary</item>
     </style>
 
-    <!-- Стиль кнопки удаления -->
     <style name="Widget.App.Button.Delete" parent="Widget.Material3.Button">
         <item name="backgroundTint">@color/delete_button</item>
         <item name="android:textColor">@color/delete_button_text</item>

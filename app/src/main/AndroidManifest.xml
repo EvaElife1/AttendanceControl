@@ -12,9 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AttendanceControl">
 
-        <!-- Главный экран -->
+        <!-- Экран авторизации — стартовый экран приложения -->
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.LoginActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -23,23 +23,25 @@
             </intent-filter>
         </activity>
 
-        <!-- Экран студентов -->
+        <!-- Главный экран -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" />
+
         <activity
             android:name=".ui.StudentsActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="false" />
 
-        <!-- Экран отметки посещаемости -->
         <activity
             android:name=".ui.AttendanceActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="false" />
 
-        <!-- Экран статистики -->
         <activity
             android:name=".ui.StatisticsActivity"
             android:exported="false" />
 
     </application>
-
 </manifest>

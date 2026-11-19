@@ -1,7 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AttendanceControl</string>
-
-    <!-- Statistics screen -->
+    <string name="login_title">Добро пожаловать</string>
+    <string name="login_subtitle">Войдите в систему учёта посещаемости</string>
+    <string name="login_role_label">Кто вы?</string>
+    <string name="login_teacher">Учитель</string>
+    <string name="login_admin">Администратор</string>
+    <string name="login_username_label">Логин</string>
+    <string name="login_username_hint">Введите логин</string>
+    <string name="login_password_label">Пароль</string>
+    <string name="login_password_hint">Введите пароль</string>
+    <string name="login_button">Войти</string>
+    <string name="login_error">Неверный логин или пароль для выбранной роли</string>
+    <string name="login_demo_credentials">Тестовые данные для входа</string>
+    <string name="login_demo_teacher">Учитель\nЛогин: teacher\nПароль: teacher123</string>
+    <string name="login_demo_admin">Администратор\nЛогин: admin\nПароль: admin123</string>
+    <string name="login_demo_note">Демонстрационный режим. Не используйте эти данные в рабочей системе.</string>
     <string name="stats_empty">Нет данных для отображения.\nПроведите занятия и сохраните посещаемость.</string>
     <string name="stats_summary_title">📊 Сводка посещаемости</string>
     <string name="stats_recent_title">📋 Последние записи</string>
