@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="?attr/colorPrimary" />
+            android:textColor="@color/indigo_500" />
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
