@@ -9,8 +9,7 @@ import com.example.attendancecontrol.R
 import com.example.attendancecontrol.util.applySystemBarsPadding
 
 /**
- * Главный экран приложения.
- * Содержит три кнопки-навигации: Студенты, Отметить посещаемость, Статистика.
+ * Главный экран приложения с навигацией по разделам и выходом из аккаунта.
  */
 class MainActivity : AppCompatActivity() {
 
@@ -18,26 +17,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Добавляем отступы под статус-бар и навигационную панель
         findViewById<View>(R.id.mainRoot)?.let { applySystemBarsPadding(it) }
 
-        val btnStudents   = findViewById<Button>(R.id.btnStudents)
-        val btnAttendance = findViewById<Button>(R.id.btnAttendance)
-        val btnStatistics = findViewById<Button>(R.id.btnStatistics)
-
-        // Переход на экран управления студентами
-        btnStudents.setOnClickListener {
+        findViewById<Button>(R.id.btnStudents).setOnClickListener {
             startActivity(Intent(this, StudentsActivity::class.java))
         }
 
-        // Переход на экран отметки посещаемости
-        btnAttendance.setOnClickListener {
+        findViewById<Button>(R.id.btnAttendance).setOnClickListener {
             startActivity(Intent(this, AttendanceActivity::class.java))
         }
 
-        // Переход на экран статистики
-        btnStatistics.setOnClickListener {
+        findViewById<Button>(R.id.btnStatistics).setOnClickListener {
             startActivity(Intent(this, StatisticsActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.btnLogout).setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            startActivity(intent)
+            finish()
         }
     }
 }
