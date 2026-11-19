@@ -21,7 +21,7 @@
             android:layout_weight="1"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="?attr/colorOnSurface"
+            android:textColor="@color/on_surface"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Иванов Иван Иванович" />
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="?android:attr/textColorSecondary"
+            android:textColor="@color/text_secondary"
             android:text="Гр. 101" />
 
         <TextView
