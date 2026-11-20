@@ -17,10 +17,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Получаем роль пользователя, переданную из LoginActivity
+        val userRole = intent.getStringExtra(LoginActivity.EXTRA_USER_ROLE) ?: "TEACHER"
+
         findViewById<View>(R.id.mainRoot)?.let { applySystemBarsPadding(it) }
 
+        // Передаём роль дальше в StudentsActivity
         findViewById<Button>(R.id.btnStudents).setOnClickListener {
-            startActivity(Intent(this, StudentsActivity::class.java))
+            startActivity(
+                Intent(this, StudentsActivity::class.java)
+                    .putExtra(LoginActivity.EXTRA_USER_ROLE, userRole)
+            )
         }
 
         findViewById<Button>(R.id.btnAttendance).setOnClickListener {

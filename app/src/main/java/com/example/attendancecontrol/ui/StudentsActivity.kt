@@ -23,14 +23,14 @@ import kotlinx.coroutines.launch
 
 /**
  * Экран управления студентами.
- * Позволяет добавлять новых студентов через форму и удалять существующих.
+ * Администратор: может добавлять и удалять студентов.
+ * Учитель: только просмотр списка.
  */
 class StudentsActivity : AppCompatActivity() {
 
     private lateinit var etLastName: EditText
     private lateinit var etFirstName: EditText
     private lateinit var etGroup: EditText
-    private lateinit var btnAddStudent: Button
     private lateinit var rvStudents: RecyclerView
     private lateinit var tvStudentsCount: TextView
 
@@ -42,7 +42,10 @@ class StudentsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_students)
 
-        // Отступы под статус-бар (шапка) и навигационную панель (список)
+        // Определяем роль: true = ADMIN, false = TEACHER
+        val isAdmin = intent.getStringExtra(LoginActivity.EXTRA_USER_ROLE) == "ADMIN"
+
+        // Отступы под статус-бар и навигационную панель
         findViewById<View>(R.id.headerLayout)?.let { applyStatusBarPadding(it) }
         findViewById<View>(R.id.rvStudents)?.let { applyNavigationBarPadding(it) }
 
@@ -53,15 +56,26 @@ class StudentsActivity : AppCompatActivity() {
         etLastName      = findViewById(R.id.etLastName)
         etFirstName     = findViewById(R.id.etFirstName)
         etGroup         = findViewById(R.id.etGroup)
-        btnAddStudent   = findViewById(R.id.btnAddStudent)
         rvStudents      = findViewById(R.id.rvStudents)
         tvStudentsCount = findViewById(R.id.tvStudentsCount)
 
-        adapter = StudentAdapter(studentsList) { student -> showDeleteDialog(student) }
+        // Форма добавления и кнопка — скрыты для учителя
+        val formContainer = findViewById<View>(R.id.formContainer)
+        formContainer.visibility = if (isAdmin) View.VISIBLE else View.GONE
+
+        // Адаптер знает роль — показывает/скрывает кнопку «Удалить»
+        adapter = StudentAdapter(
+            students = studentsList,
+            isAdmin = isAdmin,
+            onDeleteClick = { student -> showDeleteDialog(student) }
+        )
         rvStudents.layoutManager = LinearLayoutManager(this)
         rvStudents.adapter = adapter
 
-        btnAddStudent.setOnClickListener { addStudent() }
+        if (isAdmin) {
+            findViewById<Button>(R.id.btnAddStudent).setOnClickListener { addStudent() }
+        }
+
         loadStudents()
     }
 
@@ -76,13 +90,12 @@ class StudentsActivity : AppCompatActivity() {
         }
     }
 
-    /** Валидирует поля формы и добавляет нового студента в БД */
+    /** Валидирует поля формы и добавляет нового студента в БД (только для админа) */
     private fun addStudent() {
         val lastName  = etLastName.text.toString().trim()
         val firstName = etFirstName.text.toString().trim()
         val group     = etGroup.text.toString().trim()
 
-        // Используем общий валидатор для проверки полей
         val validationError = StudentValidator.validate(lastName, firstName, group)
         if (validationError != null) {
             Toast.makeText(this, validationError, Toast.LENGTH_SHORT).show()
@@ -101,7 +114,7 @@ class StudentsActivity : AppCompatActivity() {
         }
     }
 
-    /** Показывает диалог подтверждения удаления студента */
+    /** Показывает диалог подтверждения удаления студента (только для админа) */
     private fun showDeleteDialog(student: StudentEntity) {
         AlertDialog.Builder(this)
             .setTitle("Удаление")

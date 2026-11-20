@@ -11,12 +11,13 @@ import com.example.attendancecontrol.data.entity.StudentEntity
 
 /**
  * Адаптер для экрана «Студенты».
- * Отображает список студентов, сгруппированных по номеру группы,
- * с кнопкой удаления для каждой записи.
+ * Отображает список студентов, сгруппированных по номеру группы.
+ * Кнопка «Удалить» показывается только администратору (isAdmin = true).
  */
 class StudentAdapter(
     private val students: List<StudentEntity>,
-    private val onDeleteClick: (StudentEntity) -> Unit  // колбэк для удаления студента
+    private val isAdmin: Boolean,
+    private val onDeleteClick: (StudentEntity) -> Unit
 ) : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() {
 
     /** ViewHolder: кэширует View-ссылки для одной карточки студента */
@@ -51,8 +52,13 @@ class StudentAdapter(
         holder.tvName.text  = "${student.lastName} ${student.firstName}"
         holder.tvGroup.text = "Группа: ${student.groupName}"
 
-        // По нажатию «Удалить» вызываем колбэк, переданный из Activity
-        holder.btnDelete.setOnClickListener { onDeleteClick(student) }
+        // Кнопка «Удалить» доступна только администратору
+        if (isAdmin) {
+            holder.btnDelete.visibility = View.VISIBLE
+            holder.btnDelete.setOnClickListener { onDeleteClick(student) }
+        } else {
+            holder.btnDelete.visibility = View.GONE
+        }
     }
 
     /** Возвращает количество студентов в списке */
