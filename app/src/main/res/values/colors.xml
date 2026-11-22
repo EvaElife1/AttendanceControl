@@ -34,6 +34,9 @@
     <color name="text_secondary">#B7BED3</color>
     <color name="divider">#343B52</color>
 
+    <!-- Input box stroke (ДОБАВЛЕНО) -->
+    <color name="input_box_stroke">#B7BED3</color>
+
     <!-- Student cards -->
     <color name="student_card_bg">#202741</color>
     <color name="student_card_title">#FFFFFF</color>
