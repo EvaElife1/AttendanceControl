@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Активное (focused) состояние — яркое indigo -->
+    <item android:color="@color/indigo_500" android:state_focused="true" />
+    <!-- Неактивное состояние — видимый, но приглушённый indigo_700 -->
+    <item android:color="@color/indigo_700" />
+</selector>
